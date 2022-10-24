@@ -4,6 +4,7 @@ import 'package:marquee/marquee.dart';
 import 'package:mixpod/functions/functions.dart';
 import 'package:mixpod/model/hivemodel.dart';
 import 'package:mixpod/playList/add_to_playlist_from_home.dart';
+import 'package:mixpod/screens/home.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -24,6 +25,9 @@ class ScreenNowplay extends StatefulWidget {
 }
 
 class _ScreenNowplayState extends State<ScreenNowplay> {
+  bool nextDone = true;
+  bool preDone = true;
+
   int repeat = 0;
   List<dynamic> likedSongS = [];
 
@@ -287,13 +291,20 @@ class _ScreenNowplayState extends State<ScreenNowplay> {
                           visible: prevvisible,
                           child: IconButton(
                               onPressed: () {
-                                setState(() {
+                                setState(() async {
                                   widget.index = widget.index + 1;
                                   if (widget.index != audiosongs.length - 1) {
                                     nxtvisible = true;
                                   }
-                                  assetsAudioPlayer.previous();
+
+                                  if (preDone) {
+                                    preDone = false;
+                                    await assetsAudioPlayer.previous();
+                                    preDone = true;
+                                  }
+                                  // assetsAudioPlayer.previous();
                                 });
+                                addrecent(index: widget.index);
                               },
                               icon: const Icon(
                                 Icons.skip_previous_sharp,
@@ -325,13 +336,19 @@ class _ScreenNowplayState extends State<ScreenNowplay> {
                           visible: nxtvisible,
                           child: IconButton(
                               onPressed: () {
-                                setState(() {
+                                setState(() async {
                                   widget.index = widget.index + 1;
                                   if (widget.index > 0) {
                                     prevvisible = true;
                                   }
-                                  assetsAudioPlayer.next();
+                                  if (nextDone) {
+                                    nextDone = false;
+                                    await assetsAudioPlayer.next();
+                                    nextDone = true;
+                                  }
+                                  //assetsAudioPlayer.next();
                                 });
+                                addrecent(index: widget.index);
                               },
                               icon: const Icon(
                                 Icons.skip_next,

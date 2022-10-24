@@ -17,8 +17,8 @@ class _DrawerState extends State<ScreenDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: 258,
       child: Container(
+        height: double.infinity,
         color: Colors.grey.shade300,
         child: Column(
           children: [
@@ -41,7 +41,7 @@ class _DrawerState extends State<ScreenDrawer> {
                           Color(0xffdd0021),
                           Color(0xff2b2b29),
                         ]),
-                    SizedBox(
+                    const SizedBox(
                       width: 30,
                     )
                   ],
@@ -114,7 +114,7 @@ class _DrawerState extends State<ScreenDrawer> {
                         ],
                       ),
                       content: const Text(
-                          'MIXPOD is a offline music player created by Arun Raj P R'),
+                          'MIXPOD is designed and developed by\n ARUNRAJ'),
                       actions: <Widget>[
                         CupertinoDialogAction(
                           isDefaultAction: true,
@@ -134,22 +134,27 @@ class _DrawerState extends State<ScreenDrawer> {
                 );
               },
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 4,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
-                Text(
-                  'Version',
-                  style: TextStyle(color: Color(0xff2b2b29)),
-                ),
-                Text(
-                  '1.0.0',
-                  style: TextStyle(color: Color(0xff2b2b29)),
-                )
-              ],
+            // SizedBox(
+            //   height: MediaQuery.of(context).size.height / 4,
+            // ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                  Text(
+                    'Version',
+                    style: TextStyle(color: Color(0xff2b2b29)),
+                  ),
+                  Text(
+                    '1.0.0',
+                    style: TextStyle(color: Color(0xff2b2b29)),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  )
+                ],
+              ),
             )
           ],
         ),

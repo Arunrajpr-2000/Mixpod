@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
+import 'package:mixpod/screens/home.dart';
 import 'package:mixpod/screens/nowplay.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import '../functions/functions.dart';
@@ -21,6 +22,9 @@ class _MiniPlayerState extends State<MiniPlayer> {
   AssetsAudioPlayer assetsaudioplayer = AssetsAudioPlayer.withId('0');
   bool prevvisible = true;
   bool nxtvisible = true;
+
+  bool nextDone = true;
+  bool preDone = true;
 
   buttondesable() {
     if (widget.index == 0) {
@@ -99,13 +103,20 @@ class _MiniPlayerState extends State<MiniPlayer> {
                         visible: prevvisible,
                         child: IconButton(
                             onPressed: () {
-                              setState(() {
+                              setState(() async {
                                 widget.index = widget.index + 1;
                                 if (widget.index != audiosongs.length - 1) {
                                   nxtvisible = true;
                                 }
-                                assetsAudioPlayer.previous();
+                                if (preDone) {
+                                  preDone = false;
+                                  await assetsAudioPlayer.previous();
+                                  preDone = true;
+                                }
+
+                                // assetsAudioPlayer.previous();
                               });
+                              addrecent(index: widget.index);
                             },
                             icon: const Icon(
                               Icons.skip_previous_sharp,
@@ -135,13 +146,19 @@ class _MiniPlayerState extends State<MiniPlayer> {
                         visible: nxtvisible,
                         child: IconButton(
                             onPressed: () {
-                              setState(() {
+                              setState(() async {
                                 widget.index = widget.index + 1;
                                 if (widget.index > 0) {
                                   prevvisible = true;
                                 }
-                                assetsAudioPlayer.next();
+                                if (nextDone) {
+                                  nextDone = false;
+                                  await assetsAudioPlayer.next();
+                                  nextDone = true;
+                                }
+                                // assetsAudioPlayer.next();
                               });
+                              addrecent(index: widget.index);
                             },
                             icon: const Icon(
                               Icons.skip_next_sharp,

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mixpod/functions/functions.dart';
 import 'package:mixpod/widgets/drawer.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 bool temp = true;
@@ -74,12 +75,16 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                   });
                 }),
           ),
-          const ListTile(
-            leading: Icon(
+          ListTile(
+            onTap: () {
+              Share.share(
+                  'hey! check out this new app \n https://play.google.com/store/apps/details?id=in.brototype.mixpod');
+            },
+            leading: const Icon(
               Icons.share,
               color: Color(0xff2b2b29),
             ),
-            title: Text(
+            title: const Text(
               'Share',
               style: TextStyle(
                 color: Color(0xff2b2b29),
@@ -148,7 +153,7 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                       ],
                     ),
                     content: const Text(
-                        'MIXPOD is a offline music player created by Arun Raj P R'),
+                        'MIXPOD is designed and developed by\n ARUNRAJ'),
                     actions: <Widget>[
                       CupertinoDialogAction(
                         isDefaultAction: true,
@@ -168,9 +173,7 @@ class _ScreenSettingsState extends State<ScreenSettings> {
               );
             },
           ),
-          SizedBox(
-            height: size.width * 0.5,
-          ),
+          const Expanded(child: SizedBox()),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: const [
@@ -185,6 +188,9 @@ class _ScreenSettingsState extends State<ScreenSettings> {
                 style: TextStyle(
                   color: Color(0xff2b2b29),
                 ),
+              ),
+              SizedBox(
+                height: 20,
               )
             ],
           )

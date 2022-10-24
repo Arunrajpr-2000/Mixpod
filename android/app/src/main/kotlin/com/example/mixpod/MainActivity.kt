@@ -1,4 +1,4 @@
-package com.example.mixpod
+package com.boss.mixpod
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mixpod">
+    package="com.boss.mixpod">
    <application
         android:label="M I X P O D"
         android:name="${applicationName}"

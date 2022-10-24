@@ -13,6 +13,9 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../functions/functions.dart';
 import '../open audio/openaudio.dart';
 
+List<dynamic>? recentsongsdy = [];
+List<dynamic> recents = [];
+
 class ScreenHome extends StatefulWidget {
   ScreenHome({Key? key, required this.audiosongs}) : super(key: key);
   List<Audio> audiosongs = [];
@@ -25,13 +28,10 @@ class _ScreenHomeState extends State<ScreenHome> {
 
   List<dynamic>? likedsongs = [];
 
-  List<dynamic>? recentsongsdy = [];
-  List<dynamic> recents = [];
-
-  Future<Null> refreshlist() async {
+  Future refreshlist() async {
     setState(() {});
     fetchingsongs();
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
   }
 
   @override
@@ -162,19 +162,21 @@ class _ScreenHomeState extends State<ScreenHome> {
                                     index: index, allsongs: widget.audiosongs)
                                 .openAsset(audios: audiosongs, index: index);
 
-                            if (recents.length < 10) {
-                              final songs =
-                                  box.get("musics") as List<LocalSongs>;
-                              final temp = songs.firstWhere((element) =>
-                                  element.id.toString() ==
-                                  widget.audiosongs[index].metas.id.toString());
-                              recents = recentsongsdy!;
-                              recents.add(temp);
-                              box.put("recent", recents);
-                            } else {
-                              recents.removeAt(0);
-                              box.put("recent", recents);
-                            }
+                            // if (recents.length < 10) {
+                            //   final songs =
+                            //       box.get("musics") as List<LocalSongs>;
+                            //   final temp = songs.firstWhere((element) =>
+                            //       element.id.toString() ==
+                            //       widget.audiosongs[index].metas.id.toString());
+                            //   recents = recentsongsdy!;
+                            //   recents.add(temp);
+                            //   box.put("recent", recents);
+                            // } else {
+                            //   recents.removeAt(0);
+                            //   box.put("recent", recents);
+                            // }
+
+                            addrecent(index: index);
                           },
                           title: Text(
                             widget.audiosongs[index].metas.title.toString(),
@@ -369,8 +371,10 @@ class _ScreenHomeState extends State<ScreenHome> {
                                                             "favorites",
                                                             likedsongs!);
                                                         setState(() {});
+                                                        // ignore: use_build_context_synchronously
                                                         Navigator.of(context)
                                                             .pop();
+                                                        // ignore: use_build_context_synchronously
                                                         ScaffoldMessenger.of(
                                                                 context)
                                                             .showSnackBar(
@@ -421,5 +425,20 @@ class _ScreenHomeState extends State<ScreenHome> {
         ),
       ),
     );
+  }
+}
+
+addrecent({required int index}) {
+  if (recents.length < 10) {
+    final songs = box.get("musics") as List<LocalSongs>;
+
+    final temp = songs.firstWhere((element) =>
+        element.id.toString() == audiosongs[index].metas.id.toString());
+    recents = recentsongsdy!;
+    recents.add(temp);
+    box.put("recent", recents);
+  } else {
+    recents.removeAt(0);
+    box.put("recent", recents);
   }
 }
